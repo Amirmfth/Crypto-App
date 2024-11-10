@@ -6,18 +6,24 @@ import TableCoin from "../modules/TableCoin";
 import { getCoinList } from "../../services/cryptoApi";
 
 function HomePage() {
+    //States
   const [coins, setCoins] = useState([]);
+  const [isLoading , setIsLoading] = useState(true)
+
+
+  //Effects
   useEffect(() => {
     const getData = async () => {
       const response = await fetch(getCoinList());
       const json = await response.json();
       setCoins(json);
+      setIsLoading(false)
     };
     getData();
   }, []);
   return (
     <div>
-      <TableCoin coins={coins} />
+      <TableCoin coins={coins} isLoading={isLoading} />
     </div>
   );
 }
