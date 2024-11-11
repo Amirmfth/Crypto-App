@@ -2,27 +2,38 @@
 import { useEffect, useState } from "react";
 //Components
 import TableCoin from "../modules/TableCoin";
+import Pagination from "../modules/Pagination";
 //Services
 import { getCoinList } from "../../services/cryptoApi";
 
 function HomePage() {
-    //States
+  //States
   const [coins, setCoins] = useState([]);
-  const [isLoading , setIsLoading] = useState(true)
-
+  const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState(1);
 
   //Effects
   useEffect(() => {
-    const getData = async () => {
-      const response = await fetch(getCoinList());
-      const json = await response.json();
-      setCoins(json);
-      setIsLoading(false)
+    try {
+      const getData = async () => {
+        const response = await fetch(getCoinList(page));
+        const json = await response.json();
+        setCoins(json);
+        setIsLoading(false);
+      };
+      getData();
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+
+    return () => {
+      setIsLoading(true);
     };
-    getData();
-  }, []);
+  }, [page]);
   return (
     <div>
+      <Pagination pageState={{ page, setPage }} />
       <TableCoin coins={coins} isLoading={isLoading} />
     </div>
   );
