@@ -10,6 +10,26 @@
   box-sizing: border-box;
 }
 
+
+
+*::-webkit-scrollbar {
+  width: 5px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(195, 195, 195, 0.2);
+  border-radius: 5px;
+}
+
+* {
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+
 body {
   margin: auto;
   max-width: 1200px;

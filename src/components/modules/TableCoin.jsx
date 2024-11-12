@@ -6,7 +6,7 @@ import chartDown from "../../assets/chart-down.svg";
 // CSS
 import styles from "./TableCoin.module.css";
 
-function TableCoin({ coins, isLoading }) {
+function TableCoin({ coins, isLoading, currency }) {
   return (
     <div className={styles.container}>
       {isLoading ? (
@@ -25,7 +25,7 @@ function TableCoin({ coins, isLoading }) {
           </thead>
           <tbody>
             {coins.map((coin) => (
-              <TableRow key={coin.id} coin={coin} />
+              <TableRow key={coin.id} coin={coin} currency={currency} />
             ))}
           </tbody>
         </table>
@@ -46,6 +46,7 @@ const TableRow = ({
     price_change_percentage_24h: price_change,
     total_volume,
   },
+  currency,
 }) => {
   return (
     <tr>
@@ -56,7 +57,16 @@ const TableRow = ({
         </div>
       </td>
       <td>{name}</td>
-      <td>${current_price.toLocaleString()}</td>
+      <td>
+        {currency === "usd"
+          ? "$"
+          : currency === "eur"
+          ? "€"
+          : currency === "jpy"
+          ? "¥"
+          : null}
+        {current_price.toLocaleString()}
+      </td>
       <td className={price_change > 0 ? styles.success : styles.error}>
         {price_change.toFixed(2)}%
       </td>
